@@ -1,0 +1,30 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+        name: persistent-layer-pv
+        labels:
+                type: local
+                app: project
+spec:
+        storageClassName: microk8s-hostpath
+        capacity:
+                storage: 3Gi
+        accessModes:
+                - ReadWriteMany
+        hostPath:
+                path: "/opt/project/persisent_data"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+        name: persistent-layer-pvc
+        labels:
+                app: project
+spec:
+        storageClassName: microk8s-hostpath
+        accessModes:
+                - ReadWriteMany
+        resources:
+                requests:
+                        storage: 3Gi
+
