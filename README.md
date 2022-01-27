@@ -12,3 +12,9 @@ Steps to actually pre-populate:
 
 Steps to run service/deployment:
 - basically 'kubectl apply -f <any .yaml file in the directoy>' one by one
+
+
+IGNORE ALL THAT
+
+psql -h 10.152.183.106 -U postgresadmin -p 5432 postgresdb
+pwd: admin123
