@@ -1,36 +1,36 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-        name: persistent-layer-deployment
-spec:
-        replicas: 1
-        selector:
-                matchLabels:
-                        app: project
-        template:
-                metadata:
-                        labels:
-                                app: project
-                spec:
-                        containers:
-                                - name: postgres-container
-                                  image: raduge/postgres-world
-                                  imagePullPolicy: "IfNotPresent"
-                                  ports:
-                                          - containerPort: 5432
-                                  envFrom:
-                                          - configMapRef:
-                                                  name: persistent-layer-config
-                                  env:
-                                          - name: POSTGRES_PASSWORD
-                                            valueFrom:
-                                                    secretKeyRef:
-                                                            name: persistent-layer-secret
-                                                            key: POSTGRES_PASSWORD
-                                  volumeMounts:
-                                          - name: projectdb
-                                            mountPath: /var/lib/postgresql/data
-                        volumes:
-                                - name: projectdb
-                                  persistentVolumeClaim:
-                                          claimName: persistent-layer-pvc
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: postgres-deployment 
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels: 
+      app: postgres 
+  template: 
+    metadata: 
+      labels: 
+        app: postgres 
+    spec: 
+      containers: 
+        - name: postgres-container 
+          image: postgres:13.1-alpine 
+          imagePullPolicy: "IfNotPresent" 
+          ports: 
+            - containerPort: 5432 
+          envFrom: 
+            - configMapRef: 
+                name: postgres-config 
+          env: 
+            - name: POSTGRES_PASSWORD 
+              valueFrom: 
+                secretKeyRef: 
+                  name: postgres-secret 
+                  key: POSTGRES_PASSWORD 
+          volumeMounts: 
+            - mountPath: /var/lib/postgresql/data 
+              name: postgredb 
+      volumes: 
+        - name: postgredb 
+          persistentVolumeClaim: 
+            claimName: postgres-pv-claim 
