@@ -1,0 +1,81 @@
+#!flask/bin/python 
+from flask import Flask, jsonify 
+from flask_sqlalchemy import SQLAlchemy
+ 
+app = Flask(__name__) 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgresadmin:admin123@10.152.183.171:5432/postgresdb' 
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+
+class Person(db.Model):
+	__tablename__ = 'person'
+	person_id = db.Column(db.Integer(), primary_key=True)
+	name = db.Column(db.String(50), nullable=False)
+	age = db.Column(db.Integer(), nullable=False)
+      
+	def __repr__(self):
+		return "<Person %r>" % self.name
+
+
+@app.route('/')
+def index():
+    return jsonify({"message":"Welcome to our project"})
+
+@app.route('/persons', methods=['POST'])
+def create_person():
+	person_data = request.json
+	person_id = person_data['person_id']
+	name = person_data['name']
+	age = person_data['age']
+	person = Person(person_id = person_id, name = name, age = age)
+	db.session.add(person)
+	db.session.commit()
+	return jsonify({"success": True,"response":"Person added"})
+
+
+@app.route("/persons/<int:person_id>", methods = ["PATCH"])
+def update_person(person_id):
+    person = Person.query.get(person_id)
+    name = request.json['name']
+    age = request.json['age']
+
+    if person is None:
+        abort(404)
+    else:
+        person.name = name
+        person.age = age
+        db.session.add(person)
+        db.session.commit()
+        return jsonify({"success": True, "response": "Person Details updated"})
+
+@app.route("/pets/<int:pet_id>", methods = ["PATCH"])
+def update_pet(pet_id):
+    pet = Pet.query.get(pet_id)
+    pet_age = request.json['pet_age']
+    pet_description = request.json['pet_description']
+
+    if pet is None:
+        abort(404)
+    else:
+        pet.pet_age = pet_age
+        pet.pet_description = pet_description
+        db.session.add(pet)
+        db.session.commit()
+        return jsonify({"success": True, "response": "Pet Details updated"})
+        
+
+@app.route('/getpersons', methods=['GET']) 
+def get_persons(): 
+	db.create_all()
+	db.session.commit()
+	all_persons = []
+	persons = Person.query.all()
+	for person in persons:
+		results = {"person_id":person.person_id, "name":person.name, "age":person.age, }
+		all_persons.append(results)
+	return jsonify({"success": True,"persons": all_persons,"total_persons": len(persons),}) 
+
+
+if __name__ == '__main__': 
+    app.run(debug=True) 
