@@ -14,7 +14,7 @@ spec:
                 spec:
                         containers:
                                 - name: postgres-container
-                                  image: postgres:13.1-alpine
+                                  image: raduge/postgres-person-db
                                   imagePullPolicy: "IfNotPresent"
                                   ports:
                                           - containerPort: 5432

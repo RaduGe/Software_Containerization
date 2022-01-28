@@ -1,20 +1,38 @@
 # Software_Containerization
 
-Database image:
-- created by rebuilding the image described at https://github.com/aa8y/docker-dataset with only the world database
-- pushed to raduge/postgres-world in docker hub
-- simplest DB available, just a list of countries and some cities in them, should be enough i hope
-- some docs here: https://dev.mysql.com/doc/world-setup/en/world-setup-installation.html
+1. Persistent DB Layer
 
-Steps to actually pre-populate:
-- need to connect to running pod using kubectl and manually run the world.sql script under the /docker-entrypoint-initdb.d directory
-- due to the persistent volume it seems stable even if i manually remove the deployment/service
+- we extend the official postgres image by adding an init sql script that creates the person table
+- pushed to raduge/postgres-person-db
 
-Steps to run service/deployment:
-- basically 'kubectl apply -f <any .yaml file in the directoy>' one by one
+- to run the DB deployment, you have to:
+a. run: sudo mkdir -p /opt/project/persistent_data
+b. run: kubectl apply -f <postgres-*.yaml>
+this has to be done in order: storage, config, secret, service, deployment
+c. you can now connect to the db in the cluster:
+psql -h 10.152.183.13 -U postgresadmin --password -p 5432 postgresdb
+    with password: admin123
 
+you can do a \dt and see that the person table is created
 
-IGNORE ALL THAT
+- other useful info:
 
-psql -h 10.152.183.106 -U postgresadmin -p 5432 postgresdb
-pwd: admin123
+POSTGRES_USER postgresadmin
+POSTGRES_PASSWORD admin123
+POSTGRES_DB postgresdb
+
+TODO:
+- is NodePort ok for postgres service?
+
+2. REST API
+
+- I changed the app.py script a bit so that environment variables such as DB IP, PORT, passwords are retrieved automatically
+- pushed this to a new image: raduge/rest-api
+- changed deployment for rest-api so that POSTGRES env vars are propagated
+
+Steps to run:
+- kubectl apply: service first!, deployment (make sure that persistent layer is already up and running, otherwise env variables will not sync)
+
+        10) Now, type in a terminal again the same command 'microk8s kubectl get svc', and look for the cluster-ip of rest-api-service. 
+
+        11) You can now start doing CRUD requests via http://ip_of_the_cluster:port_of_the_cluster/.
