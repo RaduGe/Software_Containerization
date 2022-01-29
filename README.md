@@ -36,3 +36,6 @@ Steps to run:
         10) Now, type in a terminal again the same command 'microk8s kubectl get svc', and look for the cluster-ip of rest-api-service. 
 
         11) You can now start doing CRUD requests via http://ip_of_the_cluster:port_of_the_cluster/.
+
+TODO:
+- improve code to handle errors etc/maybe refine stuff if needed
