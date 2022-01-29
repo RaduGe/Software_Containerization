@@ -51,3 +51,4 @@ TODO:
 - need to make interface better
 - at the moment the REST API URL and port are hardcoded (which means that after running kubectl apply -f rest-api-service.yaml it needs to be changed manually); need to replace all that with environment varialbes and check that it works
 - need to create containerization for WEB APP too
+- maybe we should implement error handling and stuff like that?
