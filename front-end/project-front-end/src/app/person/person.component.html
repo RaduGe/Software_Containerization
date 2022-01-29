@@ -1,0 +1,22 @@
+<h2>List of persons</h2>
+<ul class="persons">
+  <li *ngFor="let person of persons "
+    [class.selected]="person === selectedPerson"
+    (click)="onSelect(person)">
+    <span class="badge">{{person.person_id}}</span>
+    {{person.name}} - {{person.age}}
+    <button class="delete" title="delete person"
+    (click)="delete(person)">x</button>
+  </li>
+</ul>
+
+<div *ngIf="selectedPerson">
+
+  <h2>{{selectedPerson.name}} Details</h2>
+  <div><span>id: </span>{{selectedPerson.person_id}}</div>
+  <div>
+    <label for="person-name">Person name: </label>
+    <input id="person-name" [(ngModel)]="selectedPerson.name" placeholder="name">
+  </div>
+
+</div>

@@ -29,7 +29,7 @@ def index():
     return jsonify({"message":"Welcome to our project"})
 
 @cross_origin()
-@app.route('/add_person', methods = ['POST'])
+@app.route('/api/add_person', methods = ['POST'])
 def create_person():
     person_data = request.json
     name = person_data['name']
@@ -44,7 +44,7 @@ def create_person():
         return jsonify({"success": False, "response": "Person NOT added - failure"})
 
 @cross_origin()
-@app.route("/update_person/<int:person_id>", methods = ['PATCH'])
+@app.route("/api/update_person/<int:person_id>", methods = ['PATCH'])
 def update_person(person_id):
     person = Person.query.get(person_id)
     name = request.json['name']
@@ -59,7 +59,7 @@ def update_person(person_id):
         return jsonify({"success": True, "response": "Person Details updated"})
 
 @cross_origin()
-@app.route("/delete_person/<int:person_id>", methods=['DELETE'])
+@app.route("/api/delete_person/<int:person_id>", methods=['DELETE'])
 def delete_person(person_id):
     person = Person.query.get(person_id)
     db.session.delete(person)
@@ -67,7 +67,7 @@ def delete_person(person_id):
     return jsonify({"success": True, "response": "Person Deleted"})
 
 @cross_origin()
-@app.route('/get_persons', methods=['GET']) 
+@app.route('/api/get_persons', methods=['GET']) 
 def get_persons(): 
 	db.create_all()
 	db.session.commit()
@@ -78,6 +78,17 @@ def get_persons():
 		all_persons.append(results)
 	return jsonify({"success": True,"persons": all_persons,"total_persons": len(persons),}) 
 
+@cross_origin()
+@app.route('/api/get_person', methods=['GET']) 
+def get_person(): 
+	db.create_all()
+	db.session.commit()
+	all_persons = []
+	persons = Person.query.all()
+	for person in persons:
+		results = {"person_id":person.person_id, "name":person.name, "age":person.age, }
+		all_persons.append(results)
+	return jsonify(all_persons) 
 
 
 if __name__ == '__main__': 
