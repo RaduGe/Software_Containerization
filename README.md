@@ -40,14 +40,15 @@ Steps to run:
 TODO:
 - improve code to handle errors etc/maybe refine stuff if needed
 
-3. WEB APP
+3. WEB APP - from https://angular.io/tutorial/toh
 
 - need to install node, npm
 - created a new project using: ng new project-front-end (don't need to do this)
 - navigate to project directory and run using: ng serve
 
 TODO:
-- atm only get list of persons/delete person is implemented; need to implement get by ID, post, put etc
+ - implemented: get all persons, delete person by id, add new person
+ - to do: update existing person, get person by id and whatever else is there
 - need to make interface better
 - at the moment the REST API URL and port are hardcoded (which means that after running kubectl apply -f rest-api-service.yaml it needs to be changed manually); need to replace all that with environment varialbes and check that it works
 - need to create containerization for WEB APP too

@@ -1,3 +1,19 @@
+<h2> Add a new person</h2>
+
+<div>
+    <label for="new-person">Person name: </label>
+    <input id="new-person-name" #personName />
+
+    <label for="new-person">Person age: </label>
+    <input id="new-person-age" #personAge />
+
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button class="add-button" (click)="add(personName.value, personAge.value); personName.value=''">
+      Add person
+    </button>
+  </div>
+
+
 <h2>List of persons</h2>
 <ul class="persons">
   <li *ngFor="let person of persons "

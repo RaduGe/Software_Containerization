@@ -26,7 +26,7 @@ export class RestDataService {
       );
   }
 
-  /** DELETE: delete the hero from the server */
+  /** DELETE: delete the person from the server */
   deletePerson(id: number): Observable<Person> {
       const url = `${this.personsUrl}/delete_person/${id}`;
   
@@ -35,6 +35,20 @@ export class RestDataService {
         catchError(this.handleError<Person>('deletePerson'))
       );
     }
+
+  /** POST: add a new person to the server */
+  addPerson(person: Person): Observable<Person> {
+    const url = `${this.personsUrl}/add_person`;
+    console.log({"name": person.name, "age": person.age});
+    return this.http.post<Person>(url, 
+      {"name": person.name, "age": person.age}, 
+      this.httpOptions).pipe(
+        tap((newPerson: Person) => console.log(`added person w/ id=${newPerson.person_id}`)),
+        catchError(this.handleError<Person>('addPerson'))
+  );
+}
+
+    
 
   /**
    * Handle Http operation that failed.
