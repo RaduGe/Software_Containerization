@@ -28,6 +28,7 @@ class Person(db.Model):
 def index():
     return jsonify({"message":"Welcome to our project"})
 
+# POST
 @cross_origin()
 @app.route('/api/add_person', methods = ['POST'])
 def create_person():
@@ -43,8 +44,9 @@ def create_person():
         db.session.rollback()
         return jsonify({"success": False, "response": "Person NOT added - failure"})
 
+# PUT
 @cross_origin()
-@app.route("/api/update_person/<int:person_id>", methods = ['PATCH'])
+@app.route("/api/update_person/<int:person_id>", methods = ['PUT'])
 def update_person(person_id):
     person = Person.query.get(person_id)
     name = request.json['name']
@@ -58,6 +60,8 @@ def update_person(person_id):
         db.session.commit()
         return jsonify({"success": True, "response": "Person Details updated"})
 
+
+# DELETE
 @cross_origin()
 @app.route("/api/delete_person/<int:person_id>", methods=['DELETE'])
 def delete_person(person_id):
@@ -66,6 +70,8 @@ def delete_person(person_id):
     db.session.commit()
     return jsonify({"success": True, "response": "Person Deleted"})
 
+
+# GET
 @cross_origin()
 @app.route('/api/get_persons', methods=['GET']) 
 def get_persons(): 
@@ -78,6 +84,8 @@ def get_persons():
 		all_persons.append(results)
 	return jsonify({"success": True,"persons": all_persons,"total_persons": len(persons),}) 
 
+
+# GET
 @cross_origin()
 @app.route('/api/get_person', methods=['GET']) 
 def get_person(): 

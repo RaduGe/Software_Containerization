@@ -7,14 +7,13 @@
     <label for="new-person">Person age: </label>
     <input id="new-person-age" #personAge />
 
-    <!-- (click) passes input value to add() and then clears the input -->
     <button class="add-button" (click)="add(personName.value, personAge.value); personName.value=''">
       Add person
     </button>
   </div>
 
 
-<h2>List of persons</h2>
+<h2>List of persons (click on one to update the name/age)</h2>
 <ul class="persons">
   <li *ngFor="let person of persons "
     [class.selected]="person === selectedPerson"
@@ -31,8 +30,14 @@
   <h2>{{selectedPerson.name}} Details</h2>
   <div><span>id: </span>{{selectedPerson.person_id}}</div>
   <div>
-    <label for="person-name">Person name: </label>
-    <input id="person-name" [(ngModel)]="selectedPerson.name" placeholder="name">
+    <label for="person-name">Person name:</label>
+    <input id="person-name" [(ngModel)]="selectedPerson.name" placeholder={{selectedPerson.name}}>
+
+    <label for="person-age"> Person age: </label>
+    <input id="person-age" [(ngModel)]="selectedPerson.age" placeholder={{selectedPerson.age}}>
+
   </div>
+
+  <button (click)="save()">save</button>
 
 </div>

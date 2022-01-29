@@ -45,9 +45,21 @@ export class RestDataService {
       this.httpOptions).pipe(
         tap((newPerson: Person) => console.log(`added person w/ id=${newPerson.person_id}`)),
         catchError(this.handleError<Person>('addPerson'))
-  );
-}
+    );
+  }
 
+  /** PUT: update the person on the server */
+  updatePerson(person: Person): Observable<any> {
+    var url = `${this.personsUrl}/update_person/`;
+    url += person.person_id;
+
+    return this.http.put(url, 
+      {"name": person.name, "age": person.age}
+      , this.httpOptions).pipe(
+      tap(_ => console.log(`updated person id=${person.person_id}`)),
+      catchError(this.handleError<any>('updatePerson'))
+    );
+  }
     
 
   /**

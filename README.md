@@ -47,9 +47,8 @@ TODO:
 - navigate to project directory and run using: ng serve
 
 TODO:
- - implemented: get all persons, delete person by id, add new person
- - to do: update existing person, get person by id and whatever else is there
+ - implemented: get all persons, delete person by id, add new person, update person
 - need to make interface better
 - at the moment the REST API URL and port are hardcoded (which means that after running kubectl apply -f rest-api-service.yaml it needs to be changed manually); need to replace all that with environment varialbes and check that it works
-- need to create containerization for WEB APP too
+- need to create containerization for WEB APP too - code done, need to double check after previous step
 - maybe we should implement error handling and stuff like that?

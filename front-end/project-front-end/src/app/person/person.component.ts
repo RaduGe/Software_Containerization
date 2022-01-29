@@ -34,6 +34,9 @@ export class PersonComponent implements OnInit {
   delete(person: Person): void {
     this.persons = this.persons.filter(h => h !== person);
     this.restService.deletePerson(person.person_id!).subscribe();
+
+    this.getPersons();
+    window.location.reload();
   }
 
   add(name: string, age: string|number): void {
@@ -42,12 +45,24 @@ export class PersonComponent implements OnInit {
     var parsed_age: number = +age;
     var dummy_id = 0;
     age = parsed_age;
-    
+
     if (!name) { return; }
     this.restService.addPerson({dummy_id, name, age } as Person)
       .subscribe(person => {
         this.persons.push(person);
       });
+
+    this.getPersons();
+    window.location.reload();
+  }
+
+  save(): void {
+    if (this.selectedPerson) {
+      this.restService.updatePerson(this.selectedPerson)
+        .subscribe();
+    }
+    this.getPersons();
+    window.location.reload();
   }
 
 }
