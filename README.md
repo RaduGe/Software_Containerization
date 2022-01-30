@@ -1,6 +1,6 @@
 # Software_Containerization
 
-1. Persistent DB Layer
+# 1. Persistent DB Layer
 
 - we extend the official postgres image by adding an init sql script that creates the person table
 - pushed to raduge/postgres-person-db
@@ -24,7 +24,7 @@ POSTGRES_DB postgresdb
 TODO:
 - is NodePort ok for postgres service?
 
-2. REST API
+# 2. REST API
 
 - I changed the app.py script a bit so that environment variables such as DB IP, PORT, passwords are retrieved automatically
 - pushed this to a new image: raduge/rest-api
@@ -40,7 +40,7 @@ Steps to run:
 TODO:
 - improve code to handle errors etc/maybe refine stuff if needed
 
-3. WEB APP - from https://angular.io/tutorial/toh
+# 3. WEB APP -
 
 - need to install node, npm
 - created a new project using: ng new project-front-end (don't need to do this)
@@ -60,9 +60,13 @@ adu@kube-master-gui:/etc$ cat /etc/hosts
 127.0.1.1	kube-master-gui
 127.0.0.1	group31app.com
 
-# The following lines are desirable for IPv6 capable hosts
+The following lines are desirable for IPv6 capable hosts
 ::1     ip6-localhost ip6-loopback
 fe00::0 ip6-localnet
 ff00::0 ip6-mcastprefix
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
+
+after TLS secret creation (see lesson 4):
+microk8s disable ingress
+microk8s enable ingress:default-ssl-certificate=default/my-tls-secret
