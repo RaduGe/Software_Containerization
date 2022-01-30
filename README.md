@@ -46,9 +46,12 @@ TODO:
 - created a new project using: ng new project-front-end (don't need to do this)
 - navigate to project directory and run using: ng serve
 
-TODO:
+Done: 
  - implemented: get all persons, delete person by id, add new person, update person
-- need to make interface better
+ - a little bootstrap
+
+ TODO:
+- maybe improve UI a bit? other than that, at the moment manual reload is needed after put/delete/post, maybe we can do it automatically
 - at the moment the REST API URL and port are hardcoded (which means that after running kubectl apply -f rest-api-service.yaml it needs to be changed manually); need to replace all that with environment varialbes and check that it works
 - need to create containerization for WEB APP too - code done, need to double check after previous step
 - maybe we should implement error handling and stuff like that?

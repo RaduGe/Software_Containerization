@@ -50,9 +50,8 @@ export class RestDataService {
 
   /** PUT: update the person on the server */
   updatePerson(person: Person): Observable<any> {
-    var url = `${this.personsUrl}/update_person/`;
-    url += person.person_id;
-
+    const url = `${this.personsUrl}/update_person/${person.person_id}`;
+    
     return this.http.put(url, 
       {"name": person.name, "age": person.age}
       , this.httpOptions).pipe(
@@ -60,7 +59,6 @@ export class RestDataService {
       catchError(this.handleError<any>('updatePerson'))
     );
   }
-    
 
   /**
    * Handle Http operation that failed.

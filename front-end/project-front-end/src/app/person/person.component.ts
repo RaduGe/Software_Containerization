@@ -61,8 +61,8 @@ export class PersonComponent implements OnInit {
       this.restService.updatePerson(this.selectedPerson)
         .subscribe();
     }
-    this.getPersons();
-    window.location.reload();
+    //this.getPersons();
+    //window.location.reload();
   }
 
 }
