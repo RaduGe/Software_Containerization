@@ -16,7 +16,7 @@ spec:
     spec: 
       containers: 
       - name: rest-api 
-        image: raduge/rest-api
+        image: bogdanandrei97/rest-api:v7
         ports: 
         - containerPort: 5000
         envFrom:
