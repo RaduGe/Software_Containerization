@@ -1,6 +1,6 @@
 # Software_Containerization
 
-# 1. Persistent DB Layer
+# 1. Persistent DB Layer - not visible outside cluster
 
 - we extend the official postgres image by adding an init sql script that creates the person table
 - pushed to raduge/postgres-person-db
@@ -21,10 +21,7 @@ POSTGRES_USER postgresadmin
 POSTGRES_PASSWORD admin123
 POSTGRES_DB postgresdb
 
-TODO:
-- is NodePort ok for postgres service?
-
-# 2. REST API
+# 2. REST API - not visible outside cluster
 
 - I changed the app.py script a bit so that environment variables such as DB IP, PORT, passwords are retrieved automatically
 - pushed this to a new image: raduge/rest-api
@@ -42,6 +39,7 @@ TODO:
 
 # 3. WEB APP -
 
+Only needed if docker image is changed:
 - need to install node, npm
 - created a new project using: ng new project-front-end (don't need to do this)
 - navigate to project directory and run using: ng serve
