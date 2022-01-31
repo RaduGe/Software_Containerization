@@ -93,7 +93,12 @@ Done:
 - persistent layer
 - rest-api
 - web-app
+- TLS secret stuff (added alongside DB secret & enabled TLS in ingress)
 
 TODO:
-- TLS secret stuff
-- network policy?
+- network policy? idk if needed for helm
+
+
+other TODOs:
+- change TLS secret name maybe?
+- namespace everything (this one might be needed)

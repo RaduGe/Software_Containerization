@@ -10,6 +10,7 @@ names:
   configmaps: persistent-layer-config
   secrets:
     persistentLayer: persistent-layer-secret
+    tls: my-tls-secret
   storage:
     pv: persistent-layer-pv
     pvc: persistent-layer-pvc
