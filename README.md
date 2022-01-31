@@ -49,6 +49,8 @@ Only needed if docker image is changed:
 - maybe we should implement error handling and stuff like that?
 
 - need to:
+microk8s enable metallb
+    and give an ip range: 10.50.100.5-10.50.100.25
 microk8s enable ingress
 microk8s enable dns
 edit /etc/hosts to add app url to DNS (use kubectl get ingress and then put the ip address in /etc/hosts and then the app name, see line 3)
