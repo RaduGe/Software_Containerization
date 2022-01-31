@@ -92,8 +92,8 @@ kubectl get all should return nothing
 Done:
 - persistent layer
 - rest-api
+- web-app
 
 TODO:
-- web-app
 - TLS secret stuff
 - network policy?

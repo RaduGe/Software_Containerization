@@ -76,3 +76,28 @@ spec:
               secretKeyRef:
                 name: {{ .Values.names.secrets.persistentLayer }}
                 key: {{ .Values.data.secret.pwd }}
+---
+# web app
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.names.deployments.webApp }}
+  labels:
+    app: {{ .Values.appLabel.webApp }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount.webApp }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appLabel.webApp }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appLabel.webApp }}
+    spec:
+      containers:
+        - name: {{ .Values.containers.name.webApp }}
+          image: {{ .Values.image.repository.webApp }}
+          ports:
+            - containerPort: {{ .Values.ports.webApp.containerPort }}

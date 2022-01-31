@@ -6,6 +6,7 @@ names:
   deployments:
     persistentLayer: persistent-layer-deployment
     restAPI: rest-api-deployment
+    webApp: web-app-deployment
   configmaps: persistent-layer-config
   secrets:
     persistentLayer: persistent-layer-secret
@@ -16,19 +17,23 @@ names:
   services:
     persistentLayer: persistent-layer-service
     restAPI: rest-api-service
+    webApp: web-app-service
 
 replicaCount:
   persistentLayer: 1
   restAPI: 1
+  webApp: 1
 
 appLabel:
     persistentLayer: project
     restAPI: rest-api
+    webApp: project-web-app
 
 containers:
   name:
     persistentLayer: postgres-container
     restAPI: rest-api
+    webApp: web-app-container
 
 ports:
   persistentLayer:
@@ -39,11 +44,17 @@ ports:
     targetPort: http
     name: http
     containerPort: 5000
+  webApp:
+    protocol: TCP
+    port: 80
+    targetPort: 80
+    containerPort: 80
 
 image:
   repository:
     persistentLayer: raduge/postgres-person-db
     restAPI: raduge/rest-api
+    webApp: raduge/front-end
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -69,6 +80,7 @@ services:
   type:
     persistentLayer: ClusterIP
     restAPI: ClusterIP
+    webApp: LoadBalancer
   protocol:
     restAPI: TCP
 
@@ -102,17 +114,22 @@ service:
   port: 80
 
 ingress:
-  enabled: false
+  enabled: true
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: chart-example.local
+    - host: group31app.com
       paths: []
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+  name: web-app-ingress
+  host: group31app.com
+  pathType: Prefix
+  path: /
+  
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
