@@ -65,6 +65,6 @@ ff00::0 ip6-mcastprefix
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 
-after TLS secret creation (see lesson 4):
+after TLS secret creation (see lesson 4) by typing in a terminal: kubectl create secret tls my-tls-secret --cert=cert.pem --key=key.pem:
 microk8s disable ingress
 microk8s enable ingress:default-ssl-certificate=default/my-tls-secret
