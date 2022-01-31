@@ -5,6 +5,7 @@
 names:
   deployments:
     persistentLayer: persistent-layer-deployment
+    restAPI: rest-api-deployment
   configmaps: persistent-layer-config
   secrets:
     persistentLayer: persistent-layer-secret
@@ -14,26 +15,35 @@ names:
     volumeMounts: projectdb
   services:
     persistentLayer: persistent-layer-service
+    restAPI: rest-api-service
 
 replicaCount:
   persistentLayer: 1
+  restAPI: 1
 
-selector:
-  matchLabels:
+appLabel:
     persistentLayer: project
+    restAPI: rest-api
 
 containers:
   name:
     persistentLayer: postgres-container
+    restAPI: rest-api
 
 ports:
   persistentLayer:
    containerPort: 5432
    servicePort: 5432
+  restAPI:
+    port: 8081
+    targetPort: http
+    name: http
+    containerPort: 5000
 
 image:
   repository:
     persistentLayer: raduge/postgres-person-db
+    restAPI: raduge/rest-api
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -58,6 +68,9 @@ storage:
 services:
   type:
     persistentLayer: ClusterIP
+    restAPI: ClusterIP
+  protocol:
+    restAPI: TCP
 
 nameOverride: ""
 fullnameOverride: ""

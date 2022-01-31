@@ -88,3 +88,12 @@ kubectl get all should return resources deployed (same as if you deploy them ind
 - stop it:
 microk8s helm3 uninstall <release_name>
 kubectl get all should return nothing
+
+Done:
+- persistent layer
+- rest-api
+
+TODO:
+- web-app
+- TLS secret stuff
+- network policy?

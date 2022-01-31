@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.names.configmaps }}
   labels:
-    app: {{ .Values.selector.matchLabels.persistentLayer }}
+    app: {{ .Values.appLabel.persistentLayer }}
 data:
   POSTGRES_DB: {{ .Values.data.configmap.db }}
   POSTGRES_USER: {{ .Values.data.configmap.user }}

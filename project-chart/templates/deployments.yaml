@@ -1,3 +1,4 @@
+# persistent-layer
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8,11 +9,11 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      app: {{ .Values.selector.matchLabels.persistentLayer }}
+      app: {{ .Values.appLabel.persistentLayer }}
   template:
     metadata:
       labels:
-        app: {{ .Values.selector.matchLabels.persistentLayer }}
+        app: {{ .Values.appLabel.persistentLayer }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -40,3 +41,38 @@ spec:
         - name: {{ .Values.names.storage.volumeMounts }}
           persistentVolumeClaim:
             claimName: {{ .Values.names.storage.pvc }}
+---
+# rest API
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: {{ .Values.names.deployments.restAPI }} 
+  labels: 
+    app: {{ .Values.appLabel.restAPI }} 
+spec: 
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount.restAPI }}
+  {{- end }}
+  selector: 
+    matchLabels: 
+      app: {{ .Values.appLabel.restAPI }}  
+  template: 
+    metadata: 
+      labels: 
+        app: {{ .Values.appLabel.restAPI }}  
+    spec: 
+      containers: 
+      - name: {{ .Values.containers.name.restAPI }} 
+        image: {{ .Values.image.repository.restAPI }}
+        ports: 
+        - name: {{ .Values.ports.restAPI.name }}
+          containerPort: {{ .Values.ports.restAPI.containerPort }}
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.names.configmaps }}
+        env:
+          - name: {{ .Values.data.secret.pwd }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.names.secrets.persistentLayer }}
+                key: {{ .Values.data.secret.pwd }}

@@ -1,12 +1,29 @@
+# persistent layer
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.names.services.persistentLayer }}
   labels:
-    app: {{ .Values.selector.matchLabels.persistentLayer }}
+    app: {{ .Values.appLabel.persistentLayer }}
 spec:
   type: {{ .Values.services.type.persistentLayer }}
   ports:
     - port: {{ .Values.ports.persistentLayer.servicePort }}
   selector:
-    app: {{ .Values.selector.matchLabels.persistentLayer }}
+    app: {{ .Values.appLabel.persistentLayer }}
+---
+# rest-api
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: {{ .Values.names.services.restAPI }} 
+  labels:
+    app: {{ .Values.appLabel.restAPI }}
+spec: 
+  type: {{ .Values.services.type.restAPI }} 
+  ports: 
+   - protocol: {{ .Values.services.protocol.restAPI }}  
+     port: {{ .Values.ports.restAPI.port }} 
+     targetPort: {{ .Values.ports.restAPI.targetPort }} 
+  selector: 
+    app: {{ .Values.appLabel.restAPI }}
