@@ -3,6 +3,10 @@ kind: Ingress
 metadata:
   name: web-app-ingress
 spec:
+  tls:
+  - hosts:
+      - group31app.com
+    secretName: my-tls-secret
   rules:
   - host: group31app.com
     http:
