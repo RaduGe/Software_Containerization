@@ -8,6 +8,5 @@ spec:
         type: ClusterIP
         ports:
                 - port: 5432
-                  #nodePort: 30001
         selector:
                 app: project

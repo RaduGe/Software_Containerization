@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.names.configmaps }}
+  labels:
+    app: {{ .Values.selector.matchLabels.persistentLayer }}
+data:
+  POSTGRES_DB: {{ .Values.data.configmap.db }}
+  POSTGRES_USER: {{ .Values.data.configmap.user }}

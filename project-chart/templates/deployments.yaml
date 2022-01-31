@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.names.deployments.persistentLayer }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount.persistentLayer }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.selector.matchLabels.persistentLayer }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.selector.matchLabels.persistentLayer }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Values.containers.name.persistentLayer }}
+          image: {{ .Values.image.repository.persistentLayer }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.ports.persistentLayer.containerPort }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.names.configmaps }}
+          env:
+            - name: {{ .Values.data.secret.pwd }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.names.secrets.persistentLayer }}
+                  key: {{ .Values.data.secret.pwd }}
+          volumeMounts:
+            - name: {{ .Values.names.storage.volumeMounts }}
+              mountPath: {{ .Values.storage.db_mountPath }}
+      volumes:
+        - name: {{ .Values.names.storage.volumeMounts }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.names.storage.pvc }}

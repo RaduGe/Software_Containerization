@@ -70,3 +70,21 @@ ff02::2 ip6-allrouters
 after TLS secret creation (see lesson 4) by typing in a terminal: kubectl create secret tls my-tls-secret --cert=cert.pem --key=key.pem:
 microk8s disable ingress
 microk8s enable ingress:default-ssl-certificate=default/my-tls-secret
+
+# 4. HELM Chart
+
+- need to:
+microk8s enable helm3
+
+- run:
+microk8s helm3 install <release_name> ./project-chart
+
+release-name can be anything; please note that it fails if you haven't deleted everything already created (as in deployments, services, secrets, configmaps etc) because everything is done in the default namespace (you'll get an error and it'll tell you what you still need to delete if you miss something)
+
+- get the status with:
+microk8s helm3 status <release_name>
+kubectl get all should return resources deployed (same as if you deploy them individually)
+
+- stop it:
+microk8s helm3 uninstall <release_name>
+kubectl get all should return nothing
