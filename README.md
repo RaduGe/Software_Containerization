@@ -97,8 +97,9 @@ Done:
 
 TODO:
 - network policy? idk if needed for helm
+- package helm chart and add to repository
 
 
 other TODOs:
 - change TLS secret name maybe?
-- namespace everything (this one might be needed)
+- namespace everything (this one might be needed) -> actually not needed according to docs
