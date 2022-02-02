@@ -11,7 +11,7 @@ spec:
         accessModes:
                 - ReadWriteMany
         nfs:
-                path: "persistent_layer"
+                path: "/persistent_layer"
                 server: 10.133.233.146
 ---
 kind: PersistentVolumeClaim
