@@ -22,7 +22,7 @@ metadata:
                 app: project
 spec:
         storageClassName: ""
-        volumeName: fileserver
+        volumeName: persistent-layer-pv
         accessModes:
                 - ReadWriteMany
         resources:
