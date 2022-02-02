@@ -132,3 +132,7 @@ TODO:
 other TODOs:
 - change TLS secret name maybe?
 - namespace everything (this one might be needed) -> actually not needed according to docs
+
+
+
+NETWORK POLICIES ARE APPLIED ON GOOGLE CLOUD PLATFORM - in order to get a better overview, follow the tutorial named - "GKE - Network Policies" available on Canvas 
