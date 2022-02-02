@@ -11,7 +11,7 @@ spec:
   #  secretName: my-tls-secret
   rules:
   #- host: 34.96.121.196
-    http:
+  - http:
       paths:
       - path: /*
         pathType: Prefix
