@@ -34,6 +34,8 @@ Steps to run:
 
         11) You can now start doing CRUD requests via http://ip_of_the_cluster:port_of_the_cluster/.
 
+NOTE: in GCP -> you need to sh into a running pod to be able to curl 
+
 TODO:
 - improve code to handle errors etc/maybe refine stuff if needed
 
