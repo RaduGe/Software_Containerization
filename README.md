@@ -80,7 +80,21 @@ gcloud compute addresses describe web-static-ip
 
 => 34.96.121.196
 
-# 4. HELM Chart
+# 4. TLS - IN GCP
+
+GCP apparently needs some other types of keys:
+- create ky
+openssl genrsa -out webapp.key 2048
+- create certificate signing request
+openssl req -new -key webapp.key -out webapp.csr -subj "/CN=34.96.121.196"
+- create certificate
+openssl x509 -req -days 365 -in webapp.csr -signkey webapp.key -out webapp.crt
+
+- create kube secret
+kubectl create secret tls gcp_tls --cert webapp.crt --key webapp.key
+
+
+# 5. HELM Chart
 
 - need to:
 microk8s enable helm3
