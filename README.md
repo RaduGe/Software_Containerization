@@ -97,6 +97,9 @@ nevermind, those don't work cause we don't have a domain. it's enough to reduce 
 openssl req -new -newkey rsa:2048 -x509 -sha256 -days 365 -nodes -out webapp.crt -keyout webapp.key
 kubectl create secret tls webapp-tls --cert=webapp.crt --key=webapp.key
 
+nevermind again: the TLS "works" in kubernetes but any call to https://34.96.121.196 fails while 34.96.121.196 works just fine
+i'm assuming this is some sort of GCP limitation
+
 # 5. HELM Chart
 
 - need to:
