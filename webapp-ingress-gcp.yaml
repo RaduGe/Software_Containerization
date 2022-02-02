@@ -5,12 +5,9 @@ metadata:
   annotations:
     kubernetes.io/ingress.global-static-ip-name: "web-static-ip"
 spec:
-  #tls:
-  #- hosts:
-  #    - group31app.com
-  #  secretName: my-tls-secret
+  tls:
+    secretName: my-tls-secret
   rules:
-  #- host: 34.96.121.196
   - http:
       paths:
       - path: /
