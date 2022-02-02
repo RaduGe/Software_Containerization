@@ -93,6 +93,9 @@ openssl x509 -req -days 365 -in webapp.csr -signkey webapp.key -out webapp.crt
 - create kube secret
 kubectl create secret tls gcp_tls --cert webapp.crt --key webapp.key
 
+nevermind, those don't work cause we don't have a domain. it's enough to reduce key size:
+openssl req -new -newkey rsa:2048 -x509 -sha256 -days 365 -nodes -out webapp.crt -keyout webapp.key
+kubectl create secret tls webapp-tls --cert=webapp.crt --key=webapp.key
 
 # 5. HELM Chart
 
