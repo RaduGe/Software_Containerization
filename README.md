@@ -73,6 +73,13 @@ after TLS secret creation (see lesson 4) by typing in a terminal: kubectl create
 microk8s disable ingress
 microk8s enable ingress:default-ssl-certificate=default/my-tls-secret
 
+!! in GCP
+
+gcloud compute addresses create web-static-ip --global
+gcloud compute addresses describe web-static-ip
+
+=> 34.96.121.196
+
 # 4. HELM Chart
 
 - need to:
