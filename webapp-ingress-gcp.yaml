@@ -10,7 +10,7 @@ spec:
   #    - group31app.com
   #  secretName: my-tls-secret
   rules:
-  - host: 34.96.121.196
+  #- host: 34.96.121.196
     http:
       paths:
       - path: /*
