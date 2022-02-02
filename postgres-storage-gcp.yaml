@@ -6,13 +6,13 @@ metadata:
                 type: local
                 app: project
 spec:
-        storageClassName: microk8s-hostpath
         capacity:
                 storage: 3Gi
         accessModes:
                 - ReadWriteMany
-        hostPath:
-                path: "/opt/project/persistent_data"
+        nfs:
+        	path: persistent_layer
+		server: 10.133.233.146
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -21,7 +21,8 @@ metadata:
         labels:
                 app: project
 spec:
-        storageClassName: microk8s-hostpath
+        storageClassName: ""
+	volumeName: fileserver
         accessModes:
                 - ReadWriteMany
         resources:
