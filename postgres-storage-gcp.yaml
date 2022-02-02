@@ -11,8 +11,8 @@ spec:
         accessModes:
                 - ReadWriteMany
         nfs:
-        	path: "persistent_layer"
-		server: 10.133.233.146
+                path: "persistent_layer"
+                server: 10.133.233.146
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -22,7 +22,7 @@ metadata:
                 app: project
 spec:
         storageClassName: ""
-	volumeName: fileserver
+        volumeName: fileserver
         accessModes:
                 - ReadWriteMany
         resources:
