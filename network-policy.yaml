@@ -1,15 +1,15 @@
-kind: NetworkPolicy
-apiVersion: netwoking.k8s.io/v1
-metadata:
-  name: allow-internet-only
-spec:
-  podSelector: {}
-  policyTypes:
-  - Egress
-  egress:
-  - to:
-    - ipBlock:
-        cidr: 0.0.0.0/0
+kind: NetworkPolicy 
+apiVersion: networking.k8s.io/v1 
+metadata: 
+  name: allow-internet-only 
+spec: 
+  podSelector: {} 
+  policyTypes: 
+  - Egress 
+  egress: 
+  - to: 
+    - ipBlock: 
+        cidr: 0.0.0.0/0 
         except: 
-        - cluste_pod_address_range(default)(from gcloud)
-        - service_address_range(from gcloud)
+        - 10.0.0.0/14		 
+        - 10.4.0.0/20 
