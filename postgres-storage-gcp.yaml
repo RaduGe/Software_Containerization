@@ -1,0 +1,30 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+        name: persistent-layer-pv
+        labels:
+                type: local
+                app: project
+spec:
+        capacity:
+                storage: 3Gi
+        accessModes:
+                - ReadWriteMany
+        nfs:
+                path: "/persistent_layer"
+                server: 10.133.233.146
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+        name: persistent-layer-pvc
+        labels:
+                app: project
+spec:
+        storageClassName: ""
+        volumeName: persistent-layer-pv
+        accessModes:
+                - ReadWriteMany
+        resources:
+                requests:
+                        storage: 3Gi

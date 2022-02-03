@@ -1,0 +1,103 @@
+# persistent-layer
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.names.deployments.persistentLayer }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount.persistentLayer }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appLabel.persistentLayer }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appLabel.persistentLayer }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Values.containers.name.persistentLayer }}
+          image: {{ .Values.image.repository.persistentLayer }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.ports.persistentLayer.containerPort }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.names.configmaps }}
+          env:
+            - name: {{ .Values.data.secret.pwd }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.names.secrets.persistentLayer }}
+                  key: {{ .Values.data.secret.pwd }}
+          volumeMounts:
+            - name: {{ .Values.names.storage.volumeMounts }}
+              mountPath: {{ .Values.storage.db_mountPath }}
+      volumes:
+        - name: {{ .Values.names.storage.volumeMounts }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.names.storage.pvc }}
+---
+# rest API
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: {{ .Values.names.deployments.restAPI }} 
+  labels: 
+    app: {{ .Values.appLabel.restAPI }} 
+spec: 
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount.restAPI }}
+  {{- end }}
+  selector: 
+    matchLabels: 
+      app: {{ .Values.appLabel.restAPI }}  
+  template: 
+    metadata: 
+      labels: 
+        app: {{ .Values.appLabel.restAPI }}  
+    spec: 
+      containers: 
+      - name: {{ .Values.containers.name.restAPI }} 
+        image: {{ .Values.image.repository.restAPI }}
+        ports: 
+        - name: {{ .Values.ports.restAPI.name }}
+          containerPort: {{ .Values.ports.restAPI.containerPort }}
+        envFrom:
+        - configMapRef:
+            name: {{ .Values.names.configmaps }}
+        env:
+          - name: {{ .Values.data.secret.pwd }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.names.secrets.persistentLayer }}
+                key: {{ .Values.data.secret.pwd }}
+---
+# web app
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.names.deployments.webApp }}
+  labels:
+    app: {{ .Values.appLabel.webApp }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount.webApp }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ .Values.appLabel.webApp }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appLabel.webApp }}
+    spec:
+      containers:
+        - name: {{ .Values.containers.name.webApp }}
+          image: {{ .Values.image.repository.webApp }}
+          ports:
+            - containerPort: {{ .Values.ports.webApp.containerPort }}

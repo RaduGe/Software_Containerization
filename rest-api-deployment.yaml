@@ -1,0 +1,31 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: rest-api-deployment 
+  labels: 
+    app: rest-api 
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: rest-api 
+  template: 
+    metadata: 
+      labels: 
+        app: rest-api 
+    spec: 
+      containers: 
+      - name: rest-api 
+        image: raduge/rest-api
+        ports: 
+        - name: http
+          containerPort: 5000
+        envFrom:
+        - configMapRef:
+            name: persistent-layer-config
+        env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: persistent-layer-secret
+                key: POSTGRES_PASSWORD

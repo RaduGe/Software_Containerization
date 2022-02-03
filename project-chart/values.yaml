@@ -1,0 +1,158 @@
+# Default values for project-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+names:
+  deployments:
+    persistentLayer: persistent-layer-deployment
+    restAPI: rest-api-deployment
+    webApp: web-app-deployment
+  configmaps: persistent-layer-config
+  secrets:
+    persistentLayer: persistent-layer-secret
+    tls: my-tls-secret
+  storage:
+    pv: persistent-layer-pv
+    pvc: persistent-layer-pvc
+    volumeMounts: projectdb
+  services:
+    persistentLayer: persistent-layer-service
+    restAPI: rest-api-service
+    webApp: web-app-service
+
+replicaCount:
+  persistentLayer: 1
+  restAPI: 1
+  webApp: 1
+
+appLabel:
+    persistentLayer: project
+    restAPI: rest-api
+    webApp: project-web-app
+
+containers:
+  name:
+    persistentLayer: postgres-container
+    restAPI: rest-api
+    webApp: web-app-container
+
+ports:
+  persistentLayer:
+   containerPort: 5432
+   servicePort: 5432
+  restAPI:
+    port: 8081
+    targetPort: http
+    name: http
+    containerPort: 5000
+  webApp:
+    protocol: TCP
+    port: 80
+    targetPort: 80
+    containerPort: 80
+
+image:
+  repository:
+    persistentLayer: raduge/postgres-person-db
+    restAPI: raduge/rest-api
+    webApp: raduge/front-end
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+
+data:
+  configmap:
+    db: postgresdb
+    user: postgresadmin
+  secret:
+    dbpwd: YWRtaW4xMjMK
+    pwd: POSTGRES_PASSWORD  
+
+storage:
+  className: microk8s-hostpath
+  accessModes: ReadWriteMany
+  storage: 3Gi
+  hostPath: /opt/project/persistent_data
+  db_mountPath: /var/lib/postgresql/data
+
+services:
+  type:
+    persistentLayer: ClusterIP
+    restAPI: ClusterIP
+    webApp: LoadBalancer
+  protocol:
+    restAPI: TCP
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: group31app.com
+      paths: []
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+  name: web-app-ingress
+  host: group31app.com
+  pathType: Prefix
+  path: /
+  
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

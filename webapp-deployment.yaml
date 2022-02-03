@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+        name: web-app-deployment
+        labels:
+                app: project-web-app
+spec:
+        replicas: 1
+        selector:
+                matchLabels:
+                        app: project-web-app
+        template:
+                metadata:
+                        labels:
+                                app: project-web-app
+                spec:
+                        containers:
+                        - name: web-app-container
+                          image: raduge/front-end
+                          ports:
+                          - containerPort: 80

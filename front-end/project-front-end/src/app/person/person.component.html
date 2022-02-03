@@ -1,0 +1,71 @@
+<h2> Add a new person</h2>
+
+<form>
+  <div class="form-group">
+      <label for="new-person">Person name: </label>
+      <input  class="form-control" id="new-person-name" #personName />
+  </div>
+  
+  <div class="form-group">
+    <label for="new-person">Person age: </label>
+    <input class="form-control" id="new-person-age" #personAge />
+  </div>
+
+  <button class="btn btn-primary" (click)="add(personName.value, personAge.value); personName.value=''">
+    Add person
+  </button>
+
+</form>
+
+<h2>List of persons (click on one to update the name/age)</h2>
+
+
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let person of persons "
+    [class.selected]="person === selectedPerson"
+    (click)="onSelect(person)">
+
+      <div class="card">
+        
+        <div class="card-header">
+          id: {{person.person_id}}
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title">Name: {{person.name}}</h5>
+          <p class="card-text">Age: {{person.age}}</p>
+          
+          <button class="btn btn-primary" title="delete person"
+          (click)="delete(person)">Delete
+          </button>
+        </div>
+      </div>
+
+  </li>
+</ul>
+
+
+
+<div class="card" *ngIf="selectedPerson">
+
+  <div class="card-header">
+    id: {{selectedPerson.person_id}}
+  </div>
+
+  <form>
+    <div class="card-body">
+      <div class="form-group">
+        <label for="person-name">Person name:</label>
+        <input name="changed-name" class="form-control"  id="person-name" [(ngModel)]="selectedPerson.name" placeholder={{selectedPerson.name}}>
+      </div>
+      
+      <div class="form-group">
+        <label for="person-age"> Person age: </label>
+        <input name="changed-age" class="form-control"  id="person-age" [(ngModel)]="selectedPerson.age" placeholder={{selectedPerson.age}}>
+      </div>  
+
+        <button class="btn btn-primary" (click)="save()">save</button>
+    </div>
+  </form>
+
+</div>
