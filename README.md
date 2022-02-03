@@ -1,5 +1,18 @@
 # Software_Containerization
 
+# TODOs based on presentation/open points from project:
+- project:
+1. Check that application works with more than 1 pods (more nodes?)
+2. "Ensure that the application can scale horizontally" -> find out what this means and how to show it
+3. Network policies -> refine so that application still works after applying them
+4. RBAC -> do completely on microk8s/GCP
+5. Helm -> package helm chart and add to repository
+- presentation:
+1. Architecture -> Do UML diagramas as requested; show created artifacts
+2. Show how you configured the pre-requisites for the application (Load Balancer, Storage Class, image Registry, certificates, roles, network policies etc).
+3. Show how you build the container images and publish to a registry. Show how you deploy the application. Show how to scale the application horizontally (stateless parts only). Show how to uninstall the application.
+4. Show how you re-build the application after a source code change. Show how you upgrade the running application in two ways: deployment rollout and canary update.
+
 # 1. Persistent DB Layer - not visible outside cluster
 
 - we extend the official postgres image by adding an init sql script that creates the person table
