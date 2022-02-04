@@ -14,12 +14,16 @@ kubectl get hpa
     -> maybe slide 11 from Lecture 6: for example deny access to persistent layer from any app besides rest-api and deny access to rest-api from any app besides web-app
     -> maybe slide 13: block traffic from other namespaces and allow from own namespace only
 - 4. RBAC -> do completely on microk8s/GCP
-- 5. Helm -> package helm chart and add to repository
+- DONE -> 5. Helm -> package helm chart (and add to repository - not needed)
+radu@kube-master-gui:~/Desktop/project/first_three_points/Software_Containerization$ microk8s helm3 package ./project-chart
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /var/snap/microk8s/2869/credentials/client.config
+Successfully packaged chart and saved it to: /home/radu/Desktop/project/first_three_points/Software_Containerization/project-chart-0.1.0.tgz
 # - presentation:
 - 1. Architecture -> Do UML diagramas as requested; show created artifacts
 - 2. Show how you configured the pre-requisites for the application (Load Balancer, Storage Class, image Registry, certificates, roles, network policies etc).
 - 3. Show how you build the container images and publish to a registry. Show how you deploy the application. Show how to scale the application horizontally (stateless parts only). Show how to uninstall the application.
 - 4. Show how you re-build the application after a source code change. Show how you upgrade the running application in two ways: deployment rollout and canary update.
+- 5. Clean up README
 
 # 1. Persistent DB Layer - not visible outside cluster
 
