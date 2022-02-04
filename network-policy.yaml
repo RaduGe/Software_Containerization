@@ -1,15 +1,82 @@
-kind: NetworkPolicy 
-apiVersion: networking.k8s.io/v1 
-metadata: 
-  name: allow-internet-only 
-spec: 
-  podSelector: {} 
-  policyTypes: 
-  - Egress 
-  egress: 
-  - to: 
-    - ipBlock: 
-        cidr: 0.0.0.0/0 
-        except: 
-        - 10.0.0.0/14		 
-        - 10.4.0.0/20 
+# deny all ingress
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+---
+# deny all egress
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-egress
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+---
+# allow all for web-app
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: webapp-allow-all
+spec:
+  podSelector:
+    matchLabels:
+      app: project-web-app
+  egress:
+  - {}
+  ingress:
+  - {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+# allow rest-api from web-app
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: restapi-allow-webapp
+spec:
+  podSelector:
+    matchLabels:
+      app: rest-api
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: project-web-app
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: project-web-app
+  policyTypes:
+  - Ingress
+  - Egress
+---
+# allow db from rest api - not really needed
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-allow-restapi
+spec:
+  podSelector:
+    matchLabels:
+      app: project
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: rest-api
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: rest-api
+  policyTypes:
+  - Ingress
+  - Egress

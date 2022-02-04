@@ -1,19 +1,32 @@
 # Software_Containerization
 
+https://vunl-my.sharepoint.com/:p:/r/personal/r_geacu_student_vu_nl/Documents/software_containerization.pptx?d=w7349e2b6b54047a9943c5e59cc941ff4&csf=1&web=1&e=tE31ae
+
 # TODOs based on presentation/open points from project:
-- project:
-1. Check that application works with more than 1 pods (more nodes?)
-2. "Ensure that the application can scale horizontally" -> find out what this means and how to show it (horizontal pod autoscaler maybe?)
-3. Network policies -> refine so that application still works after applying them
+# - project:
+- DONE -> 1. Check that application works with more than 1 pods (more nodes?)
+- DONE -> 2. "Ensure that the application can scale horizontally" -> find out what this means and how to show it (horizontal pod autoscaler maybe?)
+
+kubectl autoscale deployment persistent-layer-deployment --min=1 --max=4 --cpu-percent=80
+kubectl autoscale deployment rest-api-deployment --min=1 --max=4 --cpu-percent=80
+kubectl autoscale deployment web-app-deployment --min=1 --max=4 --cpu-percent=80
+kubectl get hpa
+
+- DONE -> 3. Network policies -> refine so that application still works after applying them
     -> maybe slide 11 from Lecture 6: for example deny access to persistent layer from any app besides rest-api and deny access to rest-api from any app besides web-app
     -> maybe slide 13: block traffic from other namespaces and allow from own namespace only
-4. RBAC -> do completely on microk8s/GCP
-5. Helm -> package helm chart and add to repository
-- presentation:
-1. Architecture -> Do UML diagramas as requested; show created artifacts
-2. Show how you configured the pre-requisites for the application (Load Balancer, Storage Class, image Registry, certificates, roles, network policies etc).
-3. Show how you build the container images and publish to a registry. Show how you deploy the application. Show how to scale the application horizontally (stateless parts only). Show how to uninstall the application.
-4. Show how you re-build the application after a source code change. Show how you upgrade the running application in two ways: deployment rollout and canary update.
+- 4. RBAC -> do completely on microk8s/GCP
+- DONE -> 5. Helm -> package helm chart (and add to repository - not needed)
+radu@kube-master-gui:~/Desktop/project/first_three_points/Software_Containerization$ microk8s helm3 package ./project-chart
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /var/snap/microk8s/2869/credentials/client.config
+Successfully packaged chart and saved it to: /home/radu/Desktop/project/first_three_points/Software_Containerization/project-chart-0.1.0.tgz
+# - presentation:
+- Part done -> 1. Architecture -> Do UML diagramas as requested; show created artifacts
+- DONE -> 2. Show how you configured the pre-requisites for the application (Load Balancer, Storage Class, image Registry, certificates, roles, network policies etc).
+- DONE -> 3. Show how you build the container images and publish to a registry. Show how you deploy the application. Show how to scale the application horizontally (stateless parts only). Show how to uninstall the application.
+- DONE -> 4. Show how you re-build the application after a source code change. Show how you upgrade the running application in two ways: deployment rollout and canary update.
+- 5. Clean up README
+- 6. Clean up presentation (ie alignment, design etc)
 
 # 1. Persistent DB Layer - not visible outside cluster
 
@@ -54,6 +67,9 @@ NOTE: in GCP -> you need to sh into a running pod to be able to curl
 TODO:
 - improve code to handle errors etc/maybe refine stuff if needed
 
+kubectl get hpa php-apache --watch
+
+
 # 3. WEB APP -
 
 Only needed if docker image is changed:
@@ -66,8 +82,7 @@ Only needed if docker image is changed:
 - maybe we should implement error handling and stuff like that?
 
 - need to:
-microk8s enable metallb
-    and give an ip range: 10.50.100.5-10.50.100.25
+microk8s enable metallb and give an ip range: 10.50.100.5-10.50.100.25
 microk8s enable ingress
 microk8s enable dns
 edit /etc/hosts to add app url to DNS (use kubectl get ingress and then put the ip address in /etc/hosts and then the app name, see line 3)
