@@ -36,7 +36,7 @@ export class PersonComponent implements OnInit {
     this.restService.deletePerson(person.person_id!).subscribe();
 
     this.getPersons();
-    window.location.reload();
+    //window.location.reload();
   }
 
   add(name: string, age: string|number): void {
@@ -53,7 +53,7 @@ export class PersonComponent implements OnInit {
       });
 
     this.getPersons();
-    window.location.reload();
+    //window.location.reload();
   }
 
   save(): void {
