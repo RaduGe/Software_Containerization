@@ -1,5 +1,7 @@
 # Software_Containerization
 
+https://vunl-my.sharepoint.com/:p:/r/personal/r_geacu_student_vu_nl/Documents/software_containerization.pptx?d=w7349e2b6b54047a9943c5e59cc941ff4&csf=1&web=1&e=tE31ae
+
 # TODOs based on presentation/open points from project:
 # - project:
 - DONE -> 1. Check that application works with more than 1 pods (more nodes?)
@@ -19,11 +21,12 @@ radu@kube-master-gui:~/Desktop/project/first_three_points/Software_Containerizat
 WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /var/snap/microk8s/2869/credentials/client.config
 Successfully packaged chart and saved it to: /home/radu/Desktop/project/first_three_points/Software_Containerization/project-chart-0.1.0.tgz
 # - presentation:
-- 1. Architecture -> Do UML diagramas as requested; show created artifacts
-- 2. Show how you configured the pre-requisites for the application (Load Balancer, Storage Class, image Registry, certificates, roles, network policies etc).
-- 3. Show how you build the container images and publish to a registry. Show how you deploy the application. Show how to scale the application horizontally (stateless parts only). Show how to uninstall the application.
-- 4. Show how you re-build the application after a source code change. Show how you upgrade the running application in two ways: deployment rollout and canary update.
+- Part done -> 1. Architecture -> Do UML diagramas as requested; show created artifacts
+- DONE -> 2. Show how you configured the pre-requisites for the application (Load Balancer, Storage Class, image Registry, certificates, roles, network policies etc).
+- DONE -> 3. Show how you build the container images and publish to a registry. Show how you deploy the application. Show how to scale the application horizontally (stateless parts only). Show how to uninstall the application.
+- DONE -> 4. Show how you re-build the application after a source code change. Show how you upgrade the running application in two ways: deployment rollout and canary update.
 - 5. Clean up README
+- 6. Clean up presentation (ie alignment, design etc)
 
 # 1. Persistent DB Layer - not visible outside cluster
 
