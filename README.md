@@ -13,6 +13,7 @@ kubectl get hpa
 3. Network policies -> refine so that application still works after applying them
     -> maybe slide 11 from Lecture 6: for example deny access to persistent layer from any app besides rest-api and deny access to rest-api from any app besides web-app
     -> maybe slide 13: block traffic from other namespaces and allow from own namespace only
+DONE ON MICROK8S
 4. RBAC -> do completely on microk8s/GCP
 5. Helm -> package helm chart and add to repository
 - presentation:
