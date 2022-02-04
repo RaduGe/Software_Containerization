@@ -1,26 +1,26 @@
 # Software_Containerization
 
 # TODOs based on presentation/open points from project:
-- project:
-DONE -> 1. Check that application works with more than 1 pods (more nodes?)
-DONE -> 2. "Ensure that the application can scale horizontally" -> find out what this means and how to show it (horizontal pod autoscaler maybe?)
+# - project:
+- DONE -> 1. Check that application works with more than 1 pods (more nodes?)
+- DONE -> 2. "Ensure that the application can scale horizontally" -> find out what this means and how to show it (horizontal pod autoscaler maybe?)
 
 kubectl autoscale deployment persistent-layer-deployment --min=1 --max=4 --cpu-percent=80
 kubectl autoscale deployment rest-api-deployment --min=1 --max=4 --cpu-percent=80
 kubectl autoscale deployment web-app-deployment --min=1 --max=4 --cpu-percent=80
 kubectl get hpa
 
-3. Network policies -> refine so that application still works after applying them
+- 3. Network policies -> refine so that application still works after applying them
     -> maybe slide 11 from Lecture 6: for example deny access to persistent layer from any app besides rest-api and deny access to rest-api from any app besides web-app
     -> maybe slide 13: block traffic from other namespaces and allow from own namespace only
 DONE ON MICROK8S
-4. RBAC -> do completely on microk8s/GCP
-5. Helm -> package helm chart and add to repository
-- presentation:
-1. Architecture -> Do UML diagramas as requested; show created artifacts
-2. Show how you configured the pre-requisites for the application (Load Balancer, Storage Class, image Registry, certificates, roles, network policies etc).
-3. Show how you build the container images and publish to a registry. Show how you deploy the application. Show how to scale the application horizontally (stateless parts only). Show how to uninstall the application.
-4. Show how you re-build the application after a source code change. Show how you upgrade the running application in two ways: deployment rollout and canary update.
+- 4. RBAC -> do completely on microk8s/GCP
+- 5. Helm -> package helm chart and add to repository
+# - presentation:
+- 1. Architecture -> Do UML diagramas as requested; show created artifacts
+- 2. Show how you configured the pre-requisites for the application (Load Balancer, Storage Class, image Registry, certificates, roles, network policies etc).
+- 3. Show how you build the container images and publish to a registry. Show how you deploy the application. Show how to scale the application horizontally (stateless parts only). Show how to uninstall the application.
+- 4. Show how you re-build the application after a source code change. Show how you upgrade the running application in two ways: deployment rollout and canary update.
 
 # 1. Persistent DB Layer - not visible outside cluster
 
