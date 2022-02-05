@@ -140,6 +140,10 @@ do
 - append line 'J5zfqcEvxxnhVy9kign6P5ddH3TJS41H+dFBOqXvcHzXAK90OULquTn56PYR,user,userid'
 - append line 'PwnAUUm39b24Q2/R5KN+nJUF7oMBqg9snIMdQmAZK0WF5p2Y0F65uBbmLMdg,admin2,admin2'
 
+restart microk8s by doing 'microk8s stop' and 'microk8s start'
+
+enable rbac with 'microk8s enable rbac'
+
 user will have permission to do GET, HEAD for pods
     
 admin2 will have permission to do POST, GET, HEAD, PUT, PATCH, DELETE for pods
