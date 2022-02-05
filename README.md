@@ -131,43 +131,49 @@ nevermind again: the TLS "works" in kubernetes but any call to https://34.96.121
 i'm assuming this is some sort of GCP limitation
 
 # 4.5 RBAC
--add new user to token file in the form <token>,<username>,<id> 
--we're adding two users called "user" and "admin2"
+add new user to token file in the form token,username,id 
+    
+- we're adding two users called "user" and "admin2"
 
--do 'nano /var/snap/microk8s/current/credentials/known_tokens.csv'
--append line 'J5zfqcEvxxnhVy9kign6P5ddH3TJS41H+dFBOqXvcHzXAK90OULquTn56PYR,user,userid'
--append line 'PwnAUUm39b24Q2/R5KN+nJUF7oMBqg9snIMdQmAZK0WF5p2Y0F65uBbmLMdg,admin2,admin2'
+do 
+- 'nano /var/snap/microk8s/current/credentials/known_tokens.csv'
+- append line 'J5zfqcEvxxnhVy9kign6P5ddH3TJS41H+dFBOqXvcHzXAK90OULquTn56PYR,user,userid'
+- append line 'PwnAUUm39b24Q2/R5KN+nJUF7oMBqg9snIMdQmAZK0WF5p2Y0F65uBbmLMdg,admin2,admin2'
 
--user will have permission to do GET, HEAD for pods
--admin2 will have permission to do POST, GET, HEAD, PUT, PATCH, DELETE for pods
--both bindings are ClusterRole-ClusterRoleBinding, so they can be used in any namespace
-'kubectl apply -f user-pod-reader.yaml'
-'kubectl apply -f user-pod-admin.yaml'
-'kubectl apply -f user-read-pods-global.yaml'
-'kubectl apply -f user-admin-pods-global.yaml'
+user will have permission to do GET, HEAD for pods
+    
+admin2 will have permission to do POST, GET, HEAD, PUT, PATCH, DELETE for pods
 
--quick test
-'kubectl auth can-i get pod --as user' #yes
-'kubectl auth can-i delete pod --as user' #no
-'kubectl auth can-i get pod --as admin2' #yes
-'kubectl auth can-i delete pod --as admin2' #yes
+both bindings are ClusterRole-ClusterRoleBinding, so they can be used in any namespace
+- 'kubectl apply -f user-pod-reader.yaml'
+- 'kubectl apply -f user-pod-admin.yaml'
+- 'kubectl apply -f user-read-pods-global.yaml'
+- 'kubectl apply -f user-admin-pods-global.yaml'
 
--------------
--real test
+quick test
+    
+- 'kubectl auth can-i get pod --as user' #yes    
+- 'kubectl auth can-i delete pod --as user' #no    
+- 'kubectl auth can-i get pod --as admin2' #yes    
+- 'kubectl auth can-i delete pod --as admin2' #yes
+
+
+real test
+    
 "web-app-deployment-5bdf89bbf7-2tv9w" is the pod name in this specific case but it changes every time, so check 'kubectl get pod'
 
--user GET pod
-'curl -X GET https://127.0.0.1:16443/api/v1/namespaces/default/pods/web-app-deployment-5bdf89bbf7-2tv9w --header "Authorization Bearer J5zfqcEvxxnhVy9kign6P5ddH3TJS41H+dFBOqXvcHzXAK90OULquTn56PYR" --insecure'
+case: user GET pod
+- 'curl -X GET https://127.0.0.1:16443/api/v1/namespaces/default/pods/web-app-deployment-5bdf89bbf7-2tv9w --header "Authorization Bearer J5zfqcEvxxnhVy9kign6P5ddH3TJS41H+dFBOqXvcHzXAK90OULquTn56PYR" --insecure'
 
--user DELETE pod
-'curl -X DELETE https://127.0.0.1:16443/api/v1/namespaces/default/pods/web-app-deployment-5bdf89bbf7-2tv9w --header "Authorization Bearer J5zfqcEvxxnhVy9kign6P5ddH3TJS41H+dFBOqXvcHzXAK90OULquTn56PYR" --insecure'
+case: user DELETE pod
+- 'curl -X DELETE https://127.0.0.1:16443/api/v1/namespaces/default/pods/web-app-deployment-5bdf89bbf7-2tv9w --header "Authorization Bearer J5zfqcEvxxnhVy9kign6P5ddH3TJS41H+dFBOqXvcHzXAK90OULquTn56PYR" --insecure'
 
--admin2 GET pod
-'curl -X GET https://127.0.0.1:16443/api/v1/namespaces/default/pods/web-app-deployment-5bdf89bbf7-2tv9w --header "Authorization Bearer PwnAUUm39b24Q2/R5KN+nJUF7oMBqg9snIMdQmAZK0WF5p2Y0F65uBbmLMdg" --insecure'
+case: admin2 GET pod
+- 'curl -X GET https://127.0.0.1:16443/api/v1/namespaces/default/pods/web-app-deployment-5bdf89bbf7-2tv9w --header "Authorization Bearer PwnAUUm39b24Q2/R5KN+nJUF7oMBqg9snIMdQmAZK0WF5p2Y0F65uBbmLMdg" --insecure'
 
--admin2 DELETE pod
-'curl -X DELETE https://127.0.0.1:16443/api/v1/namespaces/default/pods/web-app-deployment-5bdf89bbf7-2tv9w --header "Authorization Bearer PwnAUUm39b24Q2/R5KN+nJUF7oMBqg9snIMdQmAZK0WF5p2Y0F65uBbmLMdg" --insecure'
--------------
+case: admin2 DELETE pod
+- 'curl -X DELETE https://127.0.0.1:16443/api/v1/namespaces/default/pods/web-app-deployment-5bdf89bbf7-2tv9w --header "Authorization Bearer PwnAUUm39b24Q2/R5KN+nJUF7oMBqg9snIMdQmAZK0WF5p2Y0F65uBbmLMdg" --insecure'
+
 
 # 5. HELM Chart
 
