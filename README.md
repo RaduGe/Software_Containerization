@@ -1,6 +1,15 @@
-# Software_Containerization
+# Group 31
 
-https://vunl-my.sharepoint.com/:p:/r/personal/r_geacu_student_vu_nl/Documents/software_containerization.pptx?d=w7349e2b6b54047a9943c5e59cc941ff4&csf=1&web=1&e=tE31ae
+## Persistent Layer - not visible outside cluster
+
+- we extend the official postgres image by adding an init sql script that creates the person table
+- pushed to raduge/postgres-person-db
+- to run the DB deployment on a local unix machine, the following steps have to be done:
+1. ` sudo mkdir -p /opt/project/persistent_data `
+2. `kubectl apply -f <postgres-*.yaml> ` (this has to be done in order: storage, config, secret, service, deployment)
+3. connect to the db in the cluster:
+`psql -h <svc ip> -U postgresadmin --password -p 5432 postgresdb`
+with password: admin123
 
 # TODOs based on presentation/open points from project:
 # - project:
