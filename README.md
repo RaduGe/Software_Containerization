@@ -41,7 +41,7 @@ Note: the app is not exactly smart, so when deleting/adding/updating users pleas
 - note: this was only done on local Unix VM, so not on GCP
 8. Google Cloud Platform
 - app is hosted and up-and-running at url above:
-!(GCP_proof_1.jpg)
+![alt text](GCP_proof_1.jpg)
 
 
 ## Persistent Layer - not visible outside cluster
