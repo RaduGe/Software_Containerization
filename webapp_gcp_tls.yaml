@@ -1,7 +1,0 @@
-apiVersion: networking.gke.io/v1
-kind: ManagedCertificate
-metadata:
-  name: gcp-managed-cert
-spec:
-  domains:
-    - 34.96.121.196

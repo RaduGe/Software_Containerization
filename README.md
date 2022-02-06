@@ -1,6 +1,47 @@
 # Group 31
 
-=> 34.96.121.196
+Our application consists of a postgres database connected to a REST api served via Flask and accessed via an nginx + Angular front-end.
+The app is hosted on GCP via a static ip at: `https://34.96.121.196` (presentation video includes a walk-through).
+Note: the app is not exactly smart, so when deleting/adding/updating users please wait a couple of seconds before refreshing the page manually to see that changes are actually committed to the DB. We didn't really focus on that kind of requirements.
+
+1. Components related to the persistent layer:
+- /postgres-image-creation (original alpine image small extension)
+- postgres-config.yaml (ConfigMap)
+- postgres-deployment-gcp.yaml (Deployment for GCP due to issue with NFS; basically only mountPath changes)
+- postgres-deployment.yaml (Deployment for local Unix VM with different mountPath)
+- postgres-secret.yaml (Secret)
+- postgres-service.yaml (Service)
+- postgres-storage-gcp.yaml (Volumes for GCP)
+- postgres-storage.yaml (Volumes for unix VM)
+2. Components related to REST-API:
+- /rest-api (docker container code and flask app itself)
+- rest-api-deployment.yaml (Deployment)
+- rest-api-service.yaml (Service)
+3. Components related to web front-end:
+- /front-end/project-front-end (Docker image code and angular app itself)
+- webapp-deployment.yaml (Deployment)
+- webapp-ingress-gcp.yaml (Ingress for GCP because we don't have a domain)
+- webapp-ingress.yaml (Ingress for Unix VM - assumes that /etc/hosts is modified with domain name)
+- webapp-service.yaml (Serice)
+- webapp.crt and webapp.key (TLS requirements)
+4. Transport Level Security components
+- under /rest-api we have the key/cert files used on unix VM
+- the secret was created manually, locally using the command line (so no yaml file)
+- however, TLS is enabled on GCP (see URL above) using also command-line TLS secret (no yaml) - so we can prove it works
+5. Helm Chart Components
+- /project-chart
+6. Network policies
+- network-policy.yaml
+- we basically deny all ingress/egress connections; on top of that we allow the web app to be accessed in any way; on top of that we allow the web-app only to access the REST api and the REST_API to access the DB backend
+7. outcomeSecurity - RBAC
+- user-admin-pods-global.yaml
+- user-pod-admin.yaml
+- user-pod-reader.yaml
+- user-read-pods-global.yaml
+- note: this was only done on local Unix VM, so not on GCP
+8. Google Cloud Platform
+- app is hosted and up-and-running at url above
+
 
 ## Persistent Layer - not visible outside cluster
 
@@ -61,6 +102,7 @@ ff02::2 ip6-allrouters
 - in GCP we created a static IP address:
 `gcloud compute addresses create web-static-ip --global`
 `gcloud compute addresses describe web-static-ip`
+- in GCP we need to reduce key size due to what it seems are GCP limitations `openssl req -new -newkey rsa:2048 -x509 -sha256 -days 365 -nodes -out webapp.crt -keyout webapp.key kubectl create secret tls webapp-tls --cert=webapp.crt --key=webapp.key`
 
 ## RBAC
 
